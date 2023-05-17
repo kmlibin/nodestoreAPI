@@ -3,10 +3,15 @@ require("dotenv").config();
 
 //async errors
 
-//server and database
+//server
 const express = require("express");
 const app = express();
+
+//database
 const connectDB = require("./db/connect"); //returns a promise, which is why the func it's consumed in is async
+
+//routers
+const productsRouter = require('./routes/products')
 
 //error middleware
 const notFoundMiddleWare = require("./middleware/not-found");
@@ -16,10 +21,12 @@ const errorMiddleWare = require("./middleware/error-handler");
 app.use(express.json());
 
 //routes
-
 app.get("/", (req, res) => {
   res.send('<h1>StoreAPI</h1><a href="/api/v1/products">Product Page</a>');
 });
+
+//base route
+app.use('/api/v1/products', productsRouter)
 
 //products route
 
